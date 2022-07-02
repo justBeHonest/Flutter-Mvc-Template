@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:go2doctor/core/init/cache/locale_manager.dart';
-import 'package:go2doctor/models/auth/login.dart';
-import 'package:go2doctor/views/auth_screens/register/model/user.dart';
 
-import '../../../models/auth/user.dart';
+import '../cache/locale_manager.dart';
 
 enum Methods { get, put, delete, post }
 
@@ -78,49 +75,49 @@ class Strapi {
     return '';
   }
 
-  Future<User> login(String identifire, String password) async {
-    _clearToken();
-    var auth = await _request(Methods.post, '$_url/api/auth/local',
-        data: Login(
-          identifier: identifire,
-          password: password,
-        ).toJson());
-    if (auth != null) {
-      setToken(auth["jwt"]);
-
-      LocaleManager.instance
-          .set(cname: "user", cvalue: jsonEncode(auth["user"]));
-    } else {
-      throw Exception("login failed");
-    }
-
-    return User.fromJson(auth["user"]);
-  }
-
-  Future<User> loginFromModel(Login login) async {
-    _clearToken();
-    var auth = await _request(Methods.post, '$_url/api/auth/local',
-        data: login.toJson());
-    if (auth != null) {
-      setToken(auth["jwt"]);
-
-      LocaleManager.instance
-          .set(cname: "user", cvalue: jsonEncode(auth["user"]));
-    } else {
-      throw Exception("login failed");
-    }
-
-    return User.fromJson(auth["user"]);
-  }
-
-  Future register(String username, String email, String password) async {
-    _clearToken();
-    TestUser newUser = TestUser(username, email, password);
-    var auth = await _request(Methods.post, '$_url/api/auth/local/register',
-        data: newUser.toJson());
-    print(auth.toString());
-    return auth;
-  }
+  //Future<User> login(String identifire, String password) async {
+  //  _clearToken();
+  //  var auth = await _request(Methods.post, '$_url/api/auth/local',
+  //      data: Login(
+  //        identifier: identifire,
+  //        password: password,
+  //      ).toJson());
+  //  if (auth != null) {
+  //    setToken(auth["jwt"]);
+//
+  //    LocaleManager.instance
+  //        .set(cname: "user", cvalue: jsonEncode(auth["user"]));
+  //  } else {
+  //    throw Exception("login failed");
+  //  }
+//
+  //  return User.fromJson(auth["user"]);
+  //}
+//
+  //Future<User> loginFromModel(Login login) async {
+  //  _clearToken();
+  //  var auth = await _request(Methods.post, '$_url/api/auth/local',
+  //      data: login.toJson());
+  //  if (auth != null) {
+  //    setToken(auth["jwt"]);
+//
+  //    LocaleManager.instance
+  //        .set(cname: "user", cvalue: jsonEncode(auth["user"]));
+  //  } else {
+  //    throw Exception("login failed");
+  //  }
+//
+  //  return User.fromJson(auth["user"]);
+  //}
+//
+  //Future register(String username, String email, String password) async {
+  //  _clearToken();
+  //  TestUser newUser = TestUser(username, email, password);
+  //  var auth = await _request(Methods.post, '$_url/api/auth/local/register',
+  //      data: newUser.toJson());
+  //  print(auth.toString());
+  //  return auth;
+  //}
 
   Future registerFromModel(dynamic user) async {
     _clearToken();
